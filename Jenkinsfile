@@ -6,12 +6,13 @@ node{
 	    def dockerimage
 	    checkout scm
 	    dockerimage = docker.build('mybuilder')
+		stash includes: '**/*', name: 'files'
 	    for(int i = 0; i < splits.size(); i++) {
             def exclusions = splits.get(i);
   	        int port=60000 + i
 	        branches["split${i}"] = {
 	            node {
-	                checkout scm
+	                unstash 'files'
 	                parallel (
 	                    spring : {
 	                        dockerimage.inside("-u root:root -v $HOME/.m2:/root/.m2 -p ${port}:8080") {
