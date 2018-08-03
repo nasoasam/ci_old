@@ -11,19 +11,14 @@ node{
                 checkout scm
                 parallel (
                     spring : {
-                        dockerimage.inside("-u root:root -v $HOME/.m2:/root/.m2 -p ${port}:8080") {cc ->
-                        c["${port}"] = cc
-                        print c["${port}"].id
-                        //sh "docker exec ${cc.id} mvn spring-boot:run"
-                            sleep 100
+                        dockerimage.inside("-u root:root -v $HOME/.m2:/root/.m2 -p ${port}:8080") {
+                            sh "mvn spring-boot:run"
                         }
                     },
                     selenium : {
+                        docker.image("centos").inside("-u root:root") {
                         sleep 60
-                        print "---"
-                        print c["${port}"].id
-                        print "==="
-                        c["${port}"].stop()
+                        sh "curl 10.33.0.100:${port}"
                     }
                 )
             }
