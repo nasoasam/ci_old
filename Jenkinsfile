@@ -15,7 +15,7 @@ node{
 	                parallel (
 	                    spring : {
 	                        dockerimage.inside("-u root:root -v $HOME/.m2:/root/.m2 -p ${port}:8080") {
-	                            sh "mvn spring-boot:run"
+	                            sh "mvn spring-boot:run -Dmaven.test.skip=true"
 	                        }
 	                    },
 	                    selenium : {
