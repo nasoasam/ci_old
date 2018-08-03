@@ -1,28 +1,21 @@
-pipeline {
-    agent none
-    stages {
-        stage('para'){
-            parallel {
-                stage('Back-end') {
-                    agent {
-                        docker { image 'maven:3-alpine' }
-                    }
-                    steps {
+node{
+    sh 'mvn --version'
+    sh 'mvn spring-boot:run'
 
-                        sh 'mvn --version'
-                        sh 'mvn spring-boot:run'
-                    }
-                }
-                stage('Front-end') {
-                    agent {
-                        docker { image 'node:7-alpine' }
-                    }
-                    steps {
-                        input "次に進んでよいですか?"
-                        sh 'node --version'
-                    }
+    def branches = [:]
+    
+    for(int i = 0; i < 20; i++) {
+        int port=60000 + i
+        branches["split${i}"] = {
+            node {
+                docker.image('httpd').inside("-u root:root -p ${port}:80") {
+                    echo "${port}"
+                    sh "httpd-foreground &"
+                    sleep 30
                 }
             }
         }
     }
+    parallel branches
+
 }
