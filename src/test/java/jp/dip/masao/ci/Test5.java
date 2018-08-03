@@ -4,7 +4,7 @@ import static com.codeborne.selenide.Selenide.*;
 
 import org.junit.Test;
 
-public class uiTest {
+public class Test5 {
 
 	@Test
 	public void contextLoads() {
