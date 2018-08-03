@@ -33,7 +33,7 @@ node{
 	                        sh "wget --spider -nv --tries 0 --waitretry 1 --retry-connrefused 10.33.0.100:${port}"
 	                        dockerimage.inside("-v $HOME/.m2:/var/maven/.m2 -e MAVEN_CONFIG=/var/maven/.m2 -e _JAVA_OPTIONS=-Duser.home=/var/maven") {
     	                        writeFile file: 'exclusions.txt', text: exclusions.join("\n")
-	                            sh "mvn test -Dselenide.baseUrl=http://10.33.0.100:${port} -Dselenide.browser=chrome -Dremote=http://10.33.0.100:4444/wd/hub"
+	                            sh "mvn test -Dselenide.baseUrl=http://10.33.0.100:${port} -Dselenide.browser=ie -Dremote=http://10.33.0.232:4444/wd/hub"
 	                            step([$class: 'JUnitResultArchiver', testResults: 'target/surefire-reports/*.xml'])
 	                        }
 	                        sh "curl -X POST 10.33.0.100:${port}/actuator/shutdown"
