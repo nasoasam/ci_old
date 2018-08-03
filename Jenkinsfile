@@ -12,7 +12,7 @@ node{
   	        int port=60000 + i
 	        branches["split${i}"] = {
 	            node {
-		            sh 'rm -rf *'
+		            deleteDir()
 	                unstash 'files'
 	                parallel (
 	                    spring : {
