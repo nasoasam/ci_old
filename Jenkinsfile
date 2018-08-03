@@ -6,6 +6,7 @@ node{
         branches["split${i}"] = {
             node {
                 docker.image('maven:3.5.4-jdk-8').inside("-u root:root -v $HOME/.m2:/root/.m2") {
+                    sh 'pwd'
                     sh 'mvn spring-boot:run'
                     sleep 30
                 }
