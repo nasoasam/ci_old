@@ -1,4 +1,7 @@
 node{
+    def dockerimage
+    dockerimage = docker.build('mybuilder')
+
 	stage('checkout'){
 	    checkout scm
 	}
@@ -11,8 +14,6 @@ node{
 		def splits = splitTests([$class: 'CountDrivenParallelism', size: 1])
 	    def branches = [:]
 	    def c = [:]
-	    def dockerimage
-	    dockerimage = docker.build('mybuilder')
 
 		stash includes: '**/*', name: 'files'
 	    for(int i = 0; i < splits.size(); i++) {
