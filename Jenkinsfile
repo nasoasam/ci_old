@@ -1,11 +1,18 @@
 node{
+	stage('checkout'){
+	    checkout scm
+	}
+	stage('build'){
+       dockerimage.inside("-v $HOME/.m2:/var/maven/.m2 -e MAVEN_CONFIG=/var/maven/.m2 -e _JAVA_OPTIONS=-Duser.home=/var/maven") {
+        sh "mvn install -DskipTests=true"
+	}
     stage('test') {
 		def splits = splitTests([$class: 'CountDrivenParallelism', size: 1])
 	    def branches = [:]
 	    def c = [:]
 	    def dockerimage
-	    checkout scm
 	    dockerimage = docker.build('mybuilder')
+
 		stash includes: '**/*', name: 'files'
 	    for(int i = 0; i < splits.size(); i++) {
             def exclusions = splits.get(i);
