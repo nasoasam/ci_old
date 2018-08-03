@@ -8,7 +8,7 @@ node{
                 checkout scm
                 c["${port}"] = docker.build('mybuilder')
                 print "---"
-                print c["${port}"].id
+                print c["${port}"].ip
                 print "==="
                 //c["${port}"].inside("-u root:root -v $HOME/.m2:/root/.m2 -p ${port}:8080") {
                 //    sh 'mvn spring-boot:run'
