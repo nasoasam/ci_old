@@ -1,6 +1,6 @@
 node{
     stage('test') {
-		def splits = splitTests([$class: 'CountDrivenParallelism', size: 3])
+		def splits = splitTests([$class: 'CountDrivenParallelism', size: 2])
 	    def branches = [:]
 	    def c = [:]
 	    def dockerimage
