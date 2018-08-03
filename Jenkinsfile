@@ -16,9 +16,9 @@ node{
                         }
                     },
                     selenium : {
-                        docker.image("centos").inside("-u root:root") {
-                        sleep 60
-                        sh "curl 10.33.0.100:${port}"
+//                        docker.image("centos").inside("-u root:root") {
+                        sh "wget --tries 0 --waitretry 1 --retry-connrefused 10.33.0.100:${port}"
+                        sh "curl -X POST 10.33.0.100:${port}/actuator/shutdown"
                         }
                     }
                 )
