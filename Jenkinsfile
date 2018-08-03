@@ -1,14 +1,14 @@
 node{
     def branches = [:]
-    
+    def c = [:]
     for(int i = 0; i < 2; i++) {
         int port=60000 + i
         branches["split${i}"] = {
             node {
                 checkout scm
-                def c = docker.build('mybuilder')
-                c.inside("-u root:root -v $HOME/.m2:/root/.m2") {
-                    sh 'pwd'
+                c[${port}] = docker.build('mybuilder')
+                sh "echo AAA.${c[port]}"
+                c[${port}].inside("-u root:root -v $HOME/.m2:/root/.m2 -p ${port}:8080") {
                     sh 'mvn spring-boot:run'
                 }
             }
