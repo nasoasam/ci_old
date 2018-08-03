@@ -12,7 +12,7 @@ node{
                 parallel (
                     spring : {
                         c["${port}"] = dockerimage.run("-u root:root -v $HOME/.m2:/root/.m2 -p ${port}:8080")
-                        c["${port}"].exec("mvn spring-boot:run")
+                        c["${port}"].execute("mvn spring-boot:run")
                     },
                     selenium : {
                         sleep 60
