@@ -12,10 +12,10 @@ node{
   	        int port=60000 + i
 	        branches["split${i}"] = {
 	            node {
-	                unstash 'files'
 	                parallel (
 	                    spring : {
 	                        dockerimage.inside("-u root:root -v $HOME/.m2:/root/.m2 -p ${port}:8080") {
+				                unstash 'files'
 	                            sh "mvn spring-boot:run -Dmaven.test.skip=true"
 	                        }
 	                    },
