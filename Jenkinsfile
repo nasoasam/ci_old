@@ -16,10 +16,11 @@ node{
                         }
                     },
                     selenium : {
-//                        docker.image("centos").inside("-u root:root") {
                         sh "wget --spider -nv --tries 0 --waitretry 1 --retry-connrefused 10.33.0.100:${port}"
+                        dockerimage.inside("-u root:root -v $HOME/.m2:/root/.m2") {
+                            sh "mvn test -Dselenide.baseUrl=http://10.33.0.100:${port} -Dselenide.browser=chrome -Dremote=http://10.33.0.100:4444/wd/hub"
+                        }
                         sh "curl -X POST 10.33.0.100:${port}/actuator/shutdown"
- //                       }
                     }
                 )
             }
