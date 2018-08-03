@@ -11,8 +11,9 @@ node{
                 checkout scm
                 parallel (
                     spring : {
-                        c["${port}"] = dockerimage.run("-u root:root -v $HOME/.m2:/root/.m2 -p ${port}:8080")
-                        c["${port}"].execute("mvn spring-boot:run")
+                        def cc = dockerimage.run("-u root:root -v $HOME/.m2:/root/.m2 -p ${port}:8080")
+                        c["${port}"] = cc
+                        sh "docker exec ${cc.id} mvn spring-boot:run"
                     },
                     selenium : {
                         sleep 60
