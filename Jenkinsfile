@@ -6,7 +6,7 @@ node{
         branches["split${i}"] = {
             node {
                 checkout scm
-                def c = docker.build('')
+                def c = docker.build('mybuilder')
                 c.inside("-u root:root -v $HOME/.m2:/root/.m2") {
                     sh 'pwd'
                     sh 'mvn spring-boot:run'
