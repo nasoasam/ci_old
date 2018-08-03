@@ -14,7 +14,7 @@ node{
                         }
                     },
                     selenium : {
-                        sleep 30
+                        sleep 100
                         print "---"
                         print c["${port}"].id
                         print "==="
