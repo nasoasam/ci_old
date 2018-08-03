@@ -19,6 +19,7 @@ node{
                         docker.image("centos").inside("-u root:root") {
                         sleep 60
                         sh "curl 10.33.0.100:${port}"
+                        }
                     }
                 )
             }
