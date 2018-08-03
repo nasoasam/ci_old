@@ -11,8 +11,8 @@ node{
                 checkout scm
                 parallel (
                     spring : {
-                        c["${port}"] = dockerimage.run("-u root:root -v $HOME/.m2:/root/.m2 -p ${port}:8080")
-                        c["${port}"].inside() {
+                        c["${port}"] = dockerimage.inside("-u root:root -v $HOME/.m2:/root/.m2 -p ${port}:8080")
+                         {
                             sh 'mvn spring-boot:run'
                         }
                     },
