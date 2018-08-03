@@ -2,6 +2,7 @@ node{
     def branches = [:]
     def c = [:]
     def dockerimage
+    checkout scm
     dockerimage = docker.build('mybuilder')
     for(int i = 0; i < 2; i++) {
         int port=60000 + i
