@@ -1,7 +1,7 @@
 pipeline {
     agent none
     stages {
-        state('para'){
+        stage('para'){
             parallel {
                 stage('Back-end') {
                     agent {
