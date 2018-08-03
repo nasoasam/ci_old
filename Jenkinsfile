@@ -6,9 +6,8 @@ node{
         branches["split${i}"] = {
             node {
                 checkout scm
-                def spring = docker.image('maven:3.5.4-jdk-8').run("-u root:root -v $HOME/.m2:/root/.m2")
-                spring.stop()
-                spring.inside() {
+                def c = docker.build('')
+                c.inside("-u root:root -v $HOME/.m2:/root/.m2") {
                     sh 'pwd'
                     sh 'mvn spring-boot:run'
                 }
