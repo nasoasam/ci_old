@@ -6,13 +6,20 @@ node{
         branches["split${i}"] = {
             node {
                 checkout scm
-                c["${port}"] = docker.build('mybuilder')
-                print "---"
-                print c["${port}"].ip
-                print "==="
-                //c["${port}"].inside("-u root:root -v $HOME/.m2:/root/.m2 -p ${port}:8080") {
-                //    sh 'mvn spring-boot:run'
-                //}
+                parallel (
+                    spring : {
+                        c["${port}"] = docker.build('mybuilder')
+                        c["${port}"].inside("-u root:root -v $HOME/.m2:/root/.m2 -p ${port}:8080") {
+                            sh 'mvn spring-boot:run'
+                        }
+                    },
+                    selenium : {
+                        sleep 30
+                        print "---"
+                        print c["${port}"].id
+                        print "==="
+                        c["${port}"].stop()
+                    }
             }
         }
     }
