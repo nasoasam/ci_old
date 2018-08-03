@@ -7,6 +7,7 @@ pipeline {
             }
             steps {
                 sh 'mvn --version'
+                sh 'mvn spring-boot:run'
             }
         }
         stage('Front-end') {
