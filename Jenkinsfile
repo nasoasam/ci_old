@@ -43,6 +43,6 @@ node{
 	        }
 	    }
 	    parallel branches
-        mattermostSend color: 'good', message: 'Message from Jenkins Pipeline', text: 'optional for @here mentions and searchable text'
+        mattermostSend color: 'good', message: 'ビルドが完了しました。', text: 'optional for here mentions and searchable text'
 	}
 }
