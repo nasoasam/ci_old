@@ -11,7 +11,7 @@ node{
     	}
 	}
     stage('test') {
-		def splits = splitTests([$class: 'CountDrivenParallelism', size: 4])
+		def splits = splitTests([$class: 'CountDrivenParallelism', size: 1])
 	    def branches = [:]
 	    def c = [:]
 
