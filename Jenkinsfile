@@ -1,10 +1,11 @@
 node{
-    def dockerimage
-    dockerimage = docker.build('mybuilder')
+
 
 	stage('checkout'){
 	    checkout scm
 	}
+    def dockerimage
+    dockerimage = docker.build('mybuilder')
 	stage('build'){
        dockerimage.inside("-v $HOME/.m2:/var/maven/.m2 -e MAVEN_CONFIG=/var/maven/.m2 -e _JAVA_OPTIONS=-Duser.home=/var/maven") {
         sh "mvn install -DskipTests=true"
