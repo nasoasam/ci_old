@@ -2,8 +2,9 @@ package jp.dip.masao.ci;
 
 import static com.codeborne.selenide.Selenide.*;
 
+import org.junit.Ignore;
 import org.junit.Test;
-
+@Ignore
 public class Test4 {
 
 	@Test
