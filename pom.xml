@@ -33,6 +33,7 @@
 			**/*Test.*,
 			**/*.js,
 		</sonar.exclusions>
+		<sonar.clover.reportPath>target/site/clover/clover.xml</sonar.clover.reportPath>
 		<!-- 【例】 プロジェクト名設定`{分類名}/${project.artifactId}`等 <sonar.projectName>sample-project/${project.artifactId}</sonar.projectName> -->
 		<!-- 【例】 SonarQube Server のURL設定 <sonar.host.url>http://masao.xyz:9000</sonar.host.url> -->
 		<!-- SonarQube Server側の設定で`Force user authentication`をtrueにした場合は、 sonar.login
