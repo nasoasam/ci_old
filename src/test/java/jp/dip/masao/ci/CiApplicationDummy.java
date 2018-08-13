@@ -12,7 +12,6 @@ public class CiApplicationDummy {
 	@Test
 	public void contextLoads() {
 		System.out.println("a");
-		CiApplication.main(null);
 	}
 
 }

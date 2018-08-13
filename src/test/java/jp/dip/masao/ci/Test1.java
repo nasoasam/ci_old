@@ -11,6 +11,7 @@ public class Test1 {
 //		Configuration.baseUrl = "https://www.yahoo.co.jp";
 //		Configuration.baseUrl = "http://10.33.0.100:60000";
 //		open("/");
-			System.out.println("a");
+		CiApplication.main(null);
+		System.out.println("a");
 	}
 }
