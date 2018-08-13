@@ -12,6 +12,12 @@ node{
         sh "mvn sonar:sonar -Dsonar.host.url=http://172.17.0.2:9000"
     	}
 	}
+	stage 'findbugs'
+	    findbugs canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', excludePattern: '', healthy: '', includePattern: '', unHealthy: ''
+
+    stage 'stepCount'
+    	stepcounter settings: [[encoding: 'UTF-8', filePattern: 'src/main/java/**/*.java', filePatternExclude: '', key: 'java']]
+
 //    stage('test') {
 //		def splits = splitTests([$class: 'CountDrivenParallelism', size: 1])
 //	    def branches = [:]
