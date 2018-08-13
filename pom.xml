@@ -125,6 +125,14 @@
 					</execution>
 				</executions>
 			</plugin>
+      <plugin>
+        <groupId>org.openclover</groupId>
+        <artifactId>clover-maven-plugin</artifactId>
+        <configuration>
+            <generateHtml>true</generateHtml>
+            <generateXml>true</generateXml>
+        </configuration>
+      </plugin>
 			<!-- SonarQube Scanner実行用プラグイン設定 -->
 
 			<plugin>
