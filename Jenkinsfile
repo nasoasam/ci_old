@@ -8,7 +8,7 @@ node{
     dockerimage = docker.build('mybuilder')
 	stage('build'){
        dockerimage.inside("-v $HOME:/var/maven -v $HOME/.sonar:/var/maven/.sonar -e MAVEN_CONFIG=/var/maven/.m2 -e _JAVA_OPTIONS=-Duser.home=/var/maven") {
-        sh "mvn clean build -DskipTests=true"
+        sh "mvn clean install -DskipTests=true"
     	}
 	}
 
