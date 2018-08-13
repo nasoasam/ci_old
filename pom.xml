@@ -25,7 +25,7 @@
 		<java.version>1.8</java.version>
 
 		<!-- maven-surefire-plugin設定(plugin設定でargLineを既に設定している場合は、既存設定の先頭に`@{jacocoArgs}`を追記) -->
-		<argLine>@{jacocoArgs}</argLine>
+		<!-- <argLine>@{jacocoArgs}</argLine>-->
 		<!-- sonar-qube設定 -->
 		<!-- 【例】プログラムコード解析から除外したいファイルを指定する -->
 		<sonar.exclusions>
@@ -106,9 +106,9 @@
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>0.8.1</version>
-				<configuration>
+				<!-- <configuration>
 					<propertyName>jacocoArgs</propertyName>
-				</configuration>
+				</configuration>-->
 
 			</plugin>
       <plugin>
