@@ -133,6 +133,11 @@
             <generateXml>true</generateXml>
         </configuration>
       </plugin>
+      <plugin>
+	<groupId>org.apache.maven.plugins</groupId>
+	<artifactId>maven-pmd-plugin</artifactId>
+	<version>3.10.0</version>
+	</plugin>
 			<!-- SonarQube Scanner実行用プラグイン設定 -->
 
 			<plugin>
