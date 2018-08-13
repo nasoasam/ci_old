@@ -8,13 +8,14 @@ node{
     dockerimage = docker.build('mybuilder')
 	stage('build'){
        dockerimage.inside("-v $HOME:/var/maven -v $HOME/.sonar:/var/maven/.sonar -e MAVEN_CONFIG=/var/maven/.m2 -e _JAVA_OPTIONS=-Duser.home=/var/maven") {
-        //sh "mvn clean clover:setup test clover:aggregate clover:clover findbugs:findbugs checkstyle:checkstyle -DskipTests=true"
-        sh "mvn clean install pmd:pmd pmd:cpd findbugs:findbugs checkstyle:checkstyle -DskipTests=true"
-        sh "mvn sonar:sonar -Dsonar.host.url=http://172.17.0.1:9000"
+        sh "mvn clean build -DskipTests=true"
     	}
 	}
-/*
+
 	stage 'Clover' {
+       dockerimage.inside("-v $HOME:/var/maven -v $HOME/.sonar:/var/maven/.sonar -e MAVEN_CONFIG=/var/maven/.m2 -e _JAVA_OPTIONS=-Duser.home=/var/maven") {
+        sh "mvn clover:setup test clover:aggregate clover:clover"
+    	}
 
 	  step([
     $class: 'CloverPublisher',
@@ -25,24 +26,39 @@ node{
     failingTarget: [methodCoverage: 0, conditionalCoverage: 0, statementCoverage: 0]     // optional, default is none
   ])
   }
-*/
-    stage 'PMD'
-        pmd canComputeNew: false, defaultEncoding: '', healthy: '', pattern: '', unHealthy: ''
 
-	stage 'DRY'
+    stage('PMD'){
+    	dockerimage.inside("-v $HOME:/var/maven -v $HOME/.sonar:/var/maven/.sonar -e MAVEN_CONFIG=/var/maven/.m2 -e _JAVA_OPTIONS=-Duser.home=/var/maven") {
+    		sh "mvn pmd:pmd"
+    	}
+        pmd canComputeNew: false, defaultEncoding: '', healthy: '', pattern: '', unHealthy: ''
+    }
+
+	stage('DRY'){
+    	dockerimage.inside("-v $HOME:/var/maven -v $HOME/.sonar:/var/maven/.sonar -e MAVEN_CONFIG=/var/maven/.m2 -e _JAVA_OPTIONS=-Duser.home=/var/maven") {
+    		sh "mvn pmd:cpd"
+    	}
         dry canComputeNew: false, defaultEncoding: '', healthy: '', pattern: '', unHealthy: ''
+    }
     //stage 'JaCoCo'
     //    jacoco()
 
     //stage 'Cobertura'
     //    cobertura autoUpdateHealth: false, autoUpdateStability: false, coberturaReportFile: '**/target/site/cobertura/coverage.xml', conditionalCoverageTargets: '70, 0, 0', failUnhealthy: false, failUnstable: false, lineCoverageTargets: '80, 0, 0', maxNumberOfBuilds: 0, methodCoverageTargets: '80, 0, 0', onlyStable: false, sourceEncoding: 'ASCII', zoomCoverageChart: false
 
-    stage 'CheckStyle'
+    stage('CheckStyle'){
+        dockerimage.inside("-v $HOME:/var/maven -v $HOME/.sonar:/var/maven/.sonar -e MAVEN_CONFIG=/var/maven/.m2 -e _JAVA_OPTIONS=-Duser.home=/var/maven") {
+	        sh "mvn checkstyle:checkstyle"
+    	}
         checkstyle canComputeNew: false, defaultEncoding: '', healthy: '', pattern: '', unHealthy: ''
+    }
 
-	//stage 'findbugs'
-	//    findbugs canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', excludePattern: '', healthy: '', includePattern: '', unHealthy: ''
-
+	stage('findbugs'){
+        dockerimage.inside("-v $HOME:/var/maven -v $HOME/.sonar:/var/maven/.sonar -e MAVEN_CONFIG=/var/maven/.m2 -e _JAVA_OPTIONS=-Duser.home=/var/maven") {
+	        sh "mvn findbugs:findbugs"
+    	}
+	    findbugs canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', excludePattern: '', healthy: '', includePattern: '', unHealthy: ''
+	}
     stage 'stepCount'
     	stepcounter settings: [[encoding: 'UTF-8', filePattern: 'src/main/java/**/*.java', filePatternExclude: '', key: 'java']]
 
@@ -104,4 +120,10 @@ node{
 
 //        mattermostSend color: 'good', message: 'ビルドが完了しました。'
 //	}
+	stage('SonarQube'){
+       dockerimage.inside("-v $HOME:/var/maven -v $HOME/.sonar:/var/maven/.sonar -e MAVEN_CONFIG=/var/maven/.m2 -e _JAVA_OPTIONS=-Duser.home=/var/maven") {
+        sh "mvn sonar:sonar -Dsonar.host.url=http://172.17.0.1:9000"
+    	}
+	}
+
 }
